@@ -11,21 +11,20 @@ use BotMan\BotMan\Messages\Conversations\Conversation;
 class HelpConversation extends Conversation
 {
     /**
-     * First question
+     * Ask Help
      */
-    public function askReason()
+    public function askHelp()
     {
-        $question = Question::create("Huh - you woke me up. What do you need?")
-            ->fallback('Unable to ask question')
+        $question = Question::create("Seems that you are stuck here ?")
+            ->fallback('Unable to figure out something')
             ->callbackId('ask_reason')
             ->addButtons([
-                Button::create('Tell a joke')->value('joke'),
-                Button::create('Give me a fancy quote')->value('quote'),
+                Button::create('Google This')->value('google_help')
             ]);
 
         return $this->ask($question, function (Answer $answer) {
             if ($answer->isInteractiveMessageReply()) {
-                if ($answer->getValue() === 'joke') {
+                if ($answer->getValue() === 'google_help') {
                     $joke = json_decode(file_get_contents('http://api.icndb.com/jokes/random'));
                     $this->say($joke->value->joke);
                 } else {
@@ -40,6 +39,6 @@ class HelpConversation extends Conversation
      */
     public function run()
     {
-        $this->askReason();
+        $this->askHelp();
     }
 }
