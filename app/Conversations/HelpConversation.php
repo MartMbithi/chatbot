@@ -25,8 +25,8 @@ class HelpConversation extends Conversation
         return $this->ask($question, function (Answer $answer) {
             if ($answer->isInteractiveMessageReply()) {
                 if ($answer->getValue() === 'google_help') {
-                    $joke = json_decode(file_get_contents('http://api.icndb.com/jokes/random'));
-                    $this->say($joke->value->joke);
+                    $help = json_decode(file_get_contents('http://api.icndb.com/jokes/random'));
+                    $this->say($help->value->help);
                 } else {
                     $this->say(Inspiring::quote());
                 }
